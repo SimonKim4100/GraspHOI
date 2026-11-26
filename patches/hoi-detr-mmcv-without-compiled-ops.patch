@@ -1,0 +1,84 @@
+diff --git a/mmdet/__init__.py b/mmdet/__init__.py
+index 050d7b0..4c0f6a4 100644
+--- a/mmdet/__init__.py
++++ b/mmdet/__init__.py
+@@ -1,4 +1,7 @@
+ # Copyright (c) OpenMMLab. All rights reserved.
++import importlib.util
++import sys
++
+ import mmcv
+ 
+ from .version import __version__, short_version
+@@ -27,3 +30,8 @@ assert (mmcv_version >= digit_version(mmcv_minimum_version)
+     f'Please install mmcv>={mmcv_minimum_version}, <={mmcv_maximum_version}.'
+ 
+ __all__ = ['__version__', 'short_version']
++
++# stand-in for mmcv's compiled ops
++if importlib.util.find_spec('mmcv._ext') is None:
++    from . import _mmcv_no_ext
++    sys.modules['mmcv._ext'] = _mmcv_no_ext
+diff --git a/mmdet/_mmcv_no_ext.py b/mmdet/_mmcv_no_ext.py
+new file mode 100644
+index 0000000..90350a3
+--- /dev/null
++++ b/mmdet/_mmcv_no_ext.py
+@@ -0,0 +1,57 @@
++# Copyright (c) OpenMMLab. All rights reserved.
++"""Stand-in for mmcv's compiled module (mmcv._ext)."""
++import numpy as np
++import torch
++
++
++def softnms(boxes, scores, dets, iou_threshold, sigma, min_score, method, offset):
++    if method != 1:
++        raise NotImplementedError('only linear soft-NMS, the default of mmcv and the one used here')
++    if boxes.numel() == 0:
++        return torch.empty((0,), dtype=torch.long)
++    x1, y1, x2, y2 = [c.copy() for c in boxes.numpy().astype(np.float32).T]
++    sc = scores.numpy().astype(np.float32).copy()
++    offset = np.float32(offset)
++    areas = (x2 - x1 + offset) * (y2 - y1 + offset)
++    inds = np.arange(len(sc))
++    de = dets.numpy()
++    thr, min_s, zero, one = map(np.float32, (iou_threshold, min_score, 0, 1))
++    n = len(sc)
++    arrays = (x1, y1, x2, y2, sc, areas, inds)
++    i = 0
++    while i < n:
++        m = i + int(np.argmax(sc[i:n]))
++        for a in arrays:
++            a[i], a[m] = a[m], a[i]
++        de[i] = x1[i], y1[i], x2[i], y2[i], sc[i]
++        pos = i + 1
++        while pos < n:
++            w = max(zero, min(x2[i], x2[pos]) - max(x1[i], x1[pos]) + offset)
++            h = max(zero, min(y2[i], y2[pos]) - max(y1[i], y1[pos]) + offset)
++            inter = w * h
++            ovr = inter / (areas[i] + areas[pos] - inter)
++            weight = one - ovr if ovr >= thr else one
++            sc[pos] = sc[pos] * weight
++            if sc[pos] < min_s:
++                n -= 1
++                for a in arrays:
++                    a[pos] = a[n]
++            else:
++                pos += 1
++        i += 1
++    return torch.from_numpy(inds[:n].copy())
++
++
++def ms_deform_attn_forward(value, value_spatial_shapes, value_level_start_index, sampling_locations,
++                           attention_weights, im2col_step):
++    from mmcv.ops.multi_scale_deform_attn import multi_scale_deformable_attn_pytorch
++    return multi_scale_deformable_attn_pytorch(value, value_spatial_shapes, sampling_locations, attention_weights)
++
++
++def __getattr__(name):
++    if name.startswith('__'):
++        raise AttributeError(name)
++
++    def missing(*args, **kwargs):
++        raise NotImplementedError(f'mmcv op {name} needs mmcv-full')
++    return missing

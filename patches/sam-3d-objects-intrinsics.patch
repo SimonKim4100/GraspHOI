@@ -1,0 +1,12 @@
+diff --git a/sam3d_objects/pipeline/inference_pipeline_pointmap.py b/sam3d_objects/pipeline/inference_pipeline_pointmap.py
+index f557834..0426e73 100644
+--- a/sam3d_objects/pipeline/inference_pipeline_pointmap.py
++++ b/sam3d_objects/pipeline/inference_pipeline_pointmap.py
+@@ -506,6 +506,7 @@ class InferencePipelinePointMap(InferencePipeline):
+                 **outputs,
+                 "pointmap": pts.cpu().permute((1, 2, 0)),  # HxWx3
+                 "pointmap_colors": pts_colors.cpu().permute((1, 2, 0)),  # HxWx3
++                "intrinsics": pointmap_dict["intrinsics"],
+             }
+ 
+     @staticmethod

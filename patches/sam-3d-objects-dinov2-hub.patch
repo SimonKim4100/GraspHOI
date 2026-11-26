@@ -1,0 +1,13 @@
+diff --git a/sam3d_objects/model/backbone/dit/embedder/dino.py b/sam3d_objects/model/backbone/dit/embedder/dino.py
+index c489fe7..8665a01 100644
+--- a/sam3d_objects/model/backbone/dit/embedder/dino.py
++++ b/sam3d_objects/model/backbone/dit/embedder/dino.py
+@@ -11,7 +11,7 @@
+     def __init__(
+         self,
+         input_size: int = 224,
+-        repo_or_dir: str = "facebookresearch/dinov2",
++        repo_or_dir: str = "facebookresearch/dinov2:main",
+         dino_model: str = "dinov2_vitb14",
+         source: str = "github",
+         backbone_kwargs: Optional[Dict[str, Any]] = None,

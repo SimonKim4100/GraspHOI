@@ -1,0 +1,13 @@
+diff --git a/sam_3d_body/models/backbones/dinov3.py b/sam_3d_body/models/backbones/dinov3.py
+index bd0103a..7edfa96 100644
+--- a/sam_3d_body/models/backbones/dinov3.py
++++ b/sam_3d_body/models/backbones/dinov3.py
+@@ -13,7 +13,7 @@
+         self.cfg = cfg
+ 
+         self.encoder = torch.hub.load(
+-            "facebookresearch/dinov3",
++            "facebookresearch/dinov3:main",
+             self.name,
+             source="github",
+             pretrained=False,

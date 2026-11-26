@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# Editors and OS files
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# Model weights (see README, "Installation")
+/data/
+/object_pose/foundationpose_runtime/weights/*/
+
+# Third-party clones (tools/install.sh); the vendored MHR conversion files are tracked
+/third_party/*
+!/third_party/meta_mhr_conversion/
+
+# Example inputs and outputs (see README, "Run demo")
+/inputs/
+/outputs/
