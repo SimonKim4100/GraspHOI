@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="GraspHOI reconstructs full-body 3D human-object interaction from a single image and jointly refines the arms and fingers so that the hands meet the reconstructed object surface.">
+  <meta name="keywords" content="GraspHOI, human-object interaction, 3D reconstruction, grasp, SMPL-H">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GraspHOI: Full-Body 3D Human-Object Reconstruction with Articulated Hands from a Single In-the-Wild Image</title>
+
+  <meta property="og:title" content="GraspHOI: Full-Body 3D Human-Object Reconstruction with Articulated Hands from a Single In-the-Wild Image">
+  <meta property="og:description"
+        content="GraspHOI reconstructs full-body 3D human-object interaction from a single image and jointly refines the arms and fingers so that the hands meet the reconstructed object surface.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://simonkim4100.github.io/GraspHOI/">
+  <meta property="og:image" content="https://simonkim4100.github.io/GraspHOI/static/images/main_figure.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1.9.6/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="data:,">
+
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/index.js"></script>
+  <script type="module" src="https://cdn.jsdelivr.net/npm/@google/model-viewer@4.4.0/dist/model-viewer.min.js"></script>
+</head>
+<body>
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-2 publication-title">GraspHOI: Full-Body 3D Human-Object Reconstruction with Articulated Hands<br>from a Single In-the-Wild Image</h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">Semin Kim,</span>
+            <span class="author-block">Haechan Shin,</span>
+            <span class="author-block">Jongyoo Kim</span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">Yonsei University</span>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- Paper link, disabled for now.
+              <span class="link-block">
+                <a href="https://arxiv.org/pdf/2608.28386"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              -->
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/2608.28386"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <!-- Code Link. -->
+              <span class="link-block">
+                <a href="https://github.com/SimonKim4100/GraspHOI"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                </a>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Existing monocular full-body 3D human-object interaction (HOI) methods do not combine category-agnostic object
+            reconstruction with finger-level contact. Their hands may float off or sink into objects, breaking realism in
+            AR/VR environments. We present <b>GraspHOI</b>, the first category-agnostic framework that reconstructs a
+            full-body 3D HOI from a single image and jointly refines the arms and fingers so that the hands meet the
+            reconstructed object surface. GraspHOI reconstructs the body, hands, and object separately with foundation
+            models and places them in a shared metric camera frame through depth-based registration and silhouette
+            alignment. Occlusion-aware contact correspondences seat the object against the hand, and contact-aware
+            optimization refines shoulder, elbow, wrist, and finger rotations while anchoring the joints to the image. We
+            find that with fingers capped near the image estimate, refining them alone is insufficient; freeing the arm
+            removes most of the remaining hand-object gap, since in a full body the arm chain places the hand. In
+            experiments on three datasets, GraspHOI yields more plausible hand-object contact than four baselines and
+            better relative human-object placement than HDM and TeHOR.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <br>
+    <br>
+    <!-- Overview. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Overview</h2>
+        <div class="content has-text-justified">
+          <p>
+            GraspHOI reconstructs the human, hands, and object separately, places them in a shared metric camera frame, and
+            refines their relative configuration through contact seating and joint optimization.
+          </p>
+        </div>
+        <img class="main-figure" src="./static/images/main_figure.jpg"
+             alt="The GraspHOI pipeline: the human, hands and object are reconstructed separately, placed in a shared metric camera frame, and refined through contact seating and joint optimization.">
+      </div>
+    </div>
+
+    <br>
+    <br>
+    <!-- Examples: each slide is an input image with its reconstruction below it. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Examples</h2>
+        <div id="results-carousel" class="carousel results-carousel">
+          <div class="item">
+            <img class="result-image" draggable="false" src="static/results/apple.jpg" alt="Input image with an apple">
+            <model-viewer class="result-viewer" src="static/results/apple.glb"
+                          alt="GraspHOI reconstruction of the person and the apple"
+                          camera-controls touch-action="pan-y" camera-orbit="0deg 85deg 105%" exposure="0.6" interaction-prompt="none"></model-viewer>
+          </div>
+          <div class="item">
+            <img class="result-image" draggable="false" src="static/results/baseball_bat.jpg" alt="Input image with a baseball bat">
+            <model-viewer class="result-viewer" src="static/results/baseball_bat.glb"
+                          alt="GraspHOI reconstruction of the person and the baseball bat"
+                          camera-controls touch-action="pan-y" camera-orbit="0deg 85deg 105%" exposure="0.6" interaction-prompt="none"></model-viewer>
+          </div>
+          <div class="item">
+            <img class="result-image" draggable="false" src="static/results/bottle.jpg" alt="Input image with a bottle">
+            <model-viewer class="result-viewer" src="static/results/bottle.glb"
+                          alt="GraspHOI reconstruction of the person and the bottle"
+                          camera-controls touch-action="pan-y" camera-orbit="0deg 85deg 105%" exposure="0.6" interaction-prompt="none"></model-viewer>
+          </div>
+          <div class="item">
+            <img class="result-image" draggable="false" src="static/results/cell_phone.jpg" alt="Input image with a cell phone">
+            <model-viewer class="result-viewer" src="static/results/cell_phone.glb"
+                          alt="GraspHOI reconstruction of the person and the cell phone"
+                          camera-controls touch-action="pan-y" camera-orbit="0deg 85deg 105%" exposure="0.6" interaction-prompt="none"></model-viewer>
+          </div>
+          <div class="item">
+            <img class="result-image" draggable="false" src="static/results/cup.jpg" alt="Input image with a cup">
+            <model-viewer class="result-viewer" src="static/results/cup.glb"
+                          alt="GraspHOI reconstruction of the person and the cup"
+                          camera-controls touch-action="pan-y" camera-orbit="0deg 85deg 105%" exposure="0.6" interaction-prompt="none"></model-viewer>
+          </div>
+          <div class="item">
+            <img class="result-image" draggable="false" src="static/results/frisbee.jpg" alt="Input image with a frisbee">
+            <model-viewer class="result-viewer" src="static/results/frisbee.glb"
+                          alt="GraspHOI reconstruction of the person and the frisbee"
+                          camera-controls touch-action="pan-y" camera-orbit="0deg 85deg 105%" exposure="0.6" interaction-prompt="none"></model-viewer>
+          </div>
+          <div class="item">
+            <img class="result-image" draggable="false" src="static/results/laptop.jpg" alt="Input image with a laptop">
+            <model-viewer class="result-viewer" src="static/results/laptop.glb"
+                          alt="GraspHOI reconstruction of the person and the laptop"
+                          camera-controls touch-action="pan-y" camera-orbit="0deg 85deg 105%" exposure="0.6" interaction-prompt="none"></model-viewer>
+          </div>
+          <div class="item">
+            <img class="result-image" draggable="false" src="static/results/sports_ball.jpg" alt="Input image with a sports ball">
+            <model-viewer class="result-viewer" src="static/results/sports_ball.glb"
+                          alt="GraspHOI reconstruction of the person and the sports ball"
+                          camera-controls touch-action="pan-y" camera-orbit="0deg 85deg 105%" exposure="0.6" interaction-prompt="none"></model-viewer>
+          </div>
+          <div class="item">
+            <img class="result-image" draggable="false" src="static/results/tennis_racket.jpg" alt="Input image with a tennis racket">
+            <model-viewer class="result-viewer" src="static/results/tennis_racket.glb"
+                          alt="GraspHOI reconstruction of the person and the tennis racket"
+                          camera-controls touch-action="pan-y" camera-orbit="0deg 85deg 105%" exposure="0.6" interaction-prompt="none"></model-viewer>
+          </div>
+        </div>
+        <p class="results-credit">
+          Drag a model to rotate it, scroll to zoom. Input images are from PICO-db: A. Cseke, S. Tripathi, S. K. Dwivedi,
+          A. S. Lakshmipathy, A. Chatterjee, M. J. Black, and D. Tzionas,
+          <a href="https://pico.is.tue.mpg.de">PICO: Reconstructing 3D People In Contact with Objects</a>, CVPR 2025.
+        </p>
+      </div>
+    </div>
+
+    <br>
+    <br>
+    <!-- BibTeX. -->
+    <div class="columns is-centered">
+      <div class="column is-four-fifths content">
+        <h2 class="title is-3">BibTeX</h2>
+        <pre class="bibtex"><code>@article{kim2026grasphoi,
+  title   = {{GraspHOI}: Full-Body {3D} Human-Object Reconstruction with Articulated Hands from a Single In-the-Wild Image},
+  author  = {Kim, Semin and Shin, Haechan and Kim, Jongyoo},
+  journal = {arXiv preprint arXiv:2608.28386},
+  year    = {2026},
+}</code></pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <!-- Paper link, disabled for now.
+      <a class="icon-link" href="https://arxiv.org/pdf/2608.28386" aria-label="Paper">
+        <i class="fas fa-file-pdf"></i>
+      </a>
+      -->
+      <a class="icon-link" href="https://github.com/SimonKim4100/GraspHOI" aria-label="Code">
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content has-text-centered">
+          <p>
+            The source code of this website is adapted from the <a href="https://github.com/nerfies/nerfies.github.io">Nerfies website</a>
+            and is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

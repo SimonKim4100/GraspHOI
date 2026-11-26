@@ -1,0 +1,110 @@
+body {
+  font-family: 'Noto Sans', sans-serif;
+}
+
+
+.footer .icon-link {
+    font-size: 25px;
+    color: #000;
+}
+
+.link-block a {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.publication-title {
+}
+
+.publication-title {
+    font-family: 'Google Sans', sans-serif;
+}
+
+.publication-authors {
+    font-family: 'Google Sans', sans-serif;
+}
+
+.publication-authors {
+}
+
+.publication-authors a {
+   color: hsl(204, 86%, 53%) !important;
+}
+
+.publication-authors a:hover {
+    text-decoration: underline;
+}
+
+.author-block {
+  display: inline-block;
+}
+
+.publication-banner img {
+}
+
+.publication-authors {
+  /*color: #4286f4;*/
+}
+
+.publication-body img {
+}
+
+.results-carousel {
+  overflow: hidden;
+}
+
+.results-carousel .item {
+  margin: 5px;
+  overflow: hidden;
+  border: 1px solid #bbb;
+  border-radius: 10px;
+  padding: 0;
+  font-size: 0;
+}
+
+.main-figure {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.results-carousel .item {
+  margin: 5px 0;
+  background: #fff;
+}
+
+.result-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 762 / 340;  /* desktop proportions (340 px in the 762 px panel) at every width */
+  object-fit: contain;
+  background: #f5f5f5;
+}
+
+.result-viewer {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 762 / 460;
+  --poster-color: transparent;
+}
+
+/* arrows inside the example box instead of on its border */
+.results-carousel .slider-navigation-previous {
+  left: 12px;
+}
+
+.results-carousel .slider-navigation-next {
+  right: 12px;
+}
+
+.results-credit {
+  margin-top: 0.75rem;
+  font-size: 0.75rem;
+  color: #777;
+}
+
+.content pre.bibtex {
+  white-space: pre-wrap;
+}
